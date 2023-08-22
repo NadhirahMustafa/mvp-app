@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Modal from "react-modal";
+import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { RootState } from "../reducers/rootReducer";
 import { Grid, TextField, Button } from "@mui/material";
 import { addReviewApi } from "../services/Api.services";
 import { ReviewPopupProps, commentsDataInterface } from "../interface/product.interface";
@@ -15,6 +18,7 @@ const AddReviewPopup: React.FC<ReviewPopupProps> = ({
   onClose,
   getValue,
   addReview,
+  currentUser
 }) => {
   const [inputReview, setInputReview] = useState("");
   const handleCancelButton = () => {
@@ -26,7 +30,7 @@ const AddReviewPopup: React.FC<ReviewPopupProps> = ({
 
   const handleAddReview = async () => {
     try {
-      let res = await addReviewApi(inputReview, location.state.userDetails.id);
+      let res = await addReviewApi(inputReview, currentUser.id);
       let userRes: commentsDataInterface = {
         id: res.id,
         body: res.body,
@@ -38,13 +42,7 @@ const AddReviewPopup: React.FC<ReviewPopupProps> = ({
       };
       addReview(userRes);
       alert(addReviewPopup.alertMessage);
-      navigate(router.DETAILS, {
-        state: {
-          id: location.state.id,
-          product: location.state.product,
-          userDetails: location.state.userDetails,
-        },
-      });
+      navigate(router.DETAILS);
       onClose();
     } catch (error) {
       alert(addReviewPopup.errorMessage);
@@ -96,4 +94,8 @@ const AddReviewPopup: React.FC<ReviewPopupProps> = ({
   );
 };
 
-export default AddReviewPopup;
+const mapStateToProps = (state: RootState) => ({
+  currentUser: state.currentUser.user,
+});
+
+export default connect(mapStateToProps)(AddReviewPopup);

@@ -15,7 +15,7 @@ import Login from "./Login";
 import AddReview from "./AddReview";
 import "../styles/Dashboard.scss";
 
-const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn, selectedData }) => {
+const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn, selectedData, currentUser }) => {
   const navigate = useNavigate();
   const [comments, setComments] = useState<commentResultInterface>({
     comments: [],
@@ -156,6 +156,7 @@ const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn, selectedData }) 
 const mapStateToProps = (state: RootState) => ({
   isLoggedIn: state.login.isLoggedIn,
   selectedData: state.selectedData.selectedData,
+  currentUser: state.currentUser.user,
 });
 
 export default connect(mapStateToProps)(ProductDetailsPage);

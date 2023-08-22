@@ -34,7 +34,7 @@ export const dataReducer = (state = initialState, action: DataAction): DataState
   }
 };
 
-export const SelectedDataReducer = (state = initialState, action: selectedDataAction): DataState => {
+export const selectedDataReducer = (state = initialState, action: selectedDataAction): DataState => {
   switch (action.type) {
     case "SET_SELECTED_DATA":
       return {

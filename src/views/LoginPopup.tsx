@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { RootState } from "../reducers/rootReducer";
-import { toggleLogin } from "../redux/actions";
-import { useNavigate, useLocation } from "react-router-dom";
+import { setCurrentUser, toggleLogin } from "../redux/actions";
+import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import { Grid, TextField, Button } from "@mui/material";
 import { getUser } from "../services/Api.services";
@@ -10,6 +11,7 @@ import {
   LoginPopupProps,
   CredentialInterface,
   userInterface,
+  userDetailsInterface
 } from "../interface/product.interface";
 import { common, loginPopup } from "../constants/message";
 import { router } from "../constants/constants";
@@ -21,7 +23,8 @@ const LoginPopup: React.FC<LoginPopupProps> = ({
   isOpen,
   onClose,
   isLoggedIn,
-  toggleLogin
+  toggleLogin,
+  selectedData,
 }) => {
   const [inputUsername, setInputUsername] = useState("");
   const [inputPassword, setInputPassword] = useState("");
@@ -32,8 +35,8 @@ const LoginPopup: React.FC<LoginPopupProps> = ({
     total: 0,
   });
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const fetchList = async () => {
     let res = await getUser();
@@ -52,18 +55,18 @@ const LoginPopup: React.FC<LoginPopupProps> = ({
   }, [isLoggedIn]);
 
   const handleLogin = () => {
-    const compareUserData = credential.users.find(
+    let compareUserData = null;
+    credential.users.filter(
       (x: CredentialInterface) => x.username === inputUsername && x.password === inputPassword
-    );
+    ).map((res: userDetailsInterface, index) => {
+      if(index === 0){
+        compareUserData = res;
+      }
+    });
     if (compareUserData) {     
       toggleLogin();
-      navigate(router.DETAILS, {
-        state: {
-          id: location.state.id,
-          product: location.state.product,
-          userDetails: compareUserData,
-        },
-      });
+      dispatch(setCurrentUser(compareUserData))
+      navigate(router.DETAILS);
       onClose();
     } else {
       alert(loginPopup.errorMessage);
@@ -144,6 +147,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({
 
 const mapStateToProps = (state: RootState) => ({
   isLoggedIn: state.login.isLoggedIn,
+  selectedData: state.selectedData.selectedData,
 });
 
 const mapDispatchToProps = {

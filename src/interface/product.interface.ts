@@ -1,6 +1,6 @@
 export interface dataInterface {
   limit: number;
-  products: string[];
+  products: `string`[];
   skip: number;
   total: number;
 }
@@ -34,21 +34,51 @@ export interface LoginPopupProps {
   onClose: () => void;
   isLoggedIn: boolean;
   toggleLogin: () => void;
+  selectedData: selectedDataInterface;
 }
 
 export interface ReviewPopupProps {
   isOpen: boolean;
   onClose: () => void;
-  getValue: (q: boolean) => void;
   addReview: (w: commentsDataInterface) => void;
   commentNum: number;
+  getValue: (e: boolean) => void;
+  currentUser: userDetailsInterface;
 }
 
 export interface CredentialInterface {
   username: string;
   password: string;
 }
-
+export interface userDetailsInterface {
+  id: number;
+  firstName: string;
+  lastName: string;
+  maidenName: string;
+  age: number;
+  gender: string;
+  email: string;
+  phone: string;
+  username: string;
+  password: string;
+  birthDate: string;
+  image: string;
+  bloodGroup: string;
+  height: number;
+  weight: number;
+  eyeColor: string;
+  hair: [];
+  domain: string;
+  ip: string;
+  address: [];
+  macAddress: string;
+  university: string;
+  bank: [];
+  company: [];
+  ein: string;
+  ssn: string;
+  userAgent: string;
+}
 export interface userInterface {
   limit: number;
   users: [];
@@ -66,7 +96,7 @@ export interface newsProps {
   skip: number;
   total: number;
 }
-export interface selectedDataProps {
+export interface selectedDataInterface {
   id: number;
   title: string;
   description: string;
@@ -81,7 +111,8 @@ export interface selectedDataProps {
 }
 export interface LoginProps {
   isLoggedIn: boolean;
-  selectedData: selectedDataProps
+  selectedData: selectedDataInterface;
+  currentUser: userDetailsInterface;
 }
 export interface viewProps {
   viewType: string;

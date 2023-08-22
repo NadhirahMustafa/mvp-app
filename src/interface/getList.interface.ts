@@ -1,7 +1,8 @@
-import { dataInterface, selectedDataProps } from "./product.interface";
+import { dataInterface, selectedDataInterface } from "./product.interface";
+
 export interface DataState {
   data: dataInterface;
-  selectedData: selectedDataProps;
+  selectedData: selectedDataInterface;
 }
 
 export interface GetDataAction {
@@ -11,7 +12,7 @@ export interface GetDataAction {
 
 export interface GetSelectedDataAction {
   type: "SET_SELECTED_DATA";
-  payload: selectedDataProps;
+  payload: selectedDataInterface;
 }
 
 export type DataAction = GetDataAction;
