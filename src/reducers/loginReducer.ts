@@ -1,10 +1,10 @@
-import { AppAction, AppState } from "../interface/types.interface";
+import { LoginAction, LoginState } from "../interface/login.interface";
 
-const initialState: AppState = {
+const initialState: LoginState = {
   isLoggedIn: false,
 };
 
-const loginReducer = (state = initialState, action: AppAction): AppState => {
+const loginReducer = (state = initialState, action: LoginAction): LoginState => {
   switch (action.type) {
     case 'TOGGLE_LOGIN':
       return {

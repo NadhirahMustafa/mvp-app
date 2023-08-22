@@ -6,8 +6,8 @@ export interface dataInterface {
 }
 
 export interface ProductListProps {
-  list: dataInterface;
   viewType: number;
+  data: dataInterface;
 }
 
 export interface userDataInterface {

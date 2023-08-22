@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import { RootState } from "../redux/rootReducer";
+import { RootState } from "../reducers/rootReducer";
 import { toggleLogin } from "../redux/actions";
 import { useNavigate, useLocation } from "react-router-dom";
 import Modal from "react-modal";
@@ -31,7 +31,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({
     skip: 0,
     total: 0,
   });
-  
+
   const navigate = useNavigate();
   const location = useLocation();
 

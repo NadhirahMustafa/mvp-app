@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux';
 import { Grid, Button } from "@mui/material";
 import { getAllProducts } from "../services/Api.services";
-import { dataInterface } from "../interface/product.interface";
+import { setData } from "../redux/actions";
 import { landing, common } from "../constants/message";
 import ProductList from "./ProductList";
 import CommunityNews from "./CommunityNews";
 import "../styles/Dashboard.scss";
 
 const LandingPage: React.FC = () => {
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [viewType, setViewType] = useState(0);
-  const [list, setList] = useState<dataInterface>({
-    limit: 0,
-    products: [],
-    skip: 0,
-    total: 0,
-  });
 
   const fetchList = async () => {
     let res = await getAllProducts();
     if (res) {
-      setList(res);
+      dispatch(setData(res));
       setIsLoading(false);
       setViewType(2);
     } else {
@@ -72,7 +69,7 @@ const LandingPage: React.FC = () => {
         <Grid container>
           <Grid item xs={10}>
             {renderDataView()}
-            {!isLoading && <ProductList list={list} viewType={viewType} />}
+            {!isLoading && <ProductList viewType={viewType} />}
           </Grid>
           <Grid item xs={2}>
             <CommunityNews />

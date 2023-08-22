@@ -1,4 +1,4 @@
-export interface AppState {
+export interface LoginState {
     isLoggedIn: boolean;
   }
   
@@ -6,5 +6,5 @@ export interface AppState {
     type: 'TOGGLE_LOGIN';
   }
   
-  export type AppAction = ToggleLoginAction;
+  export type LoginAction = ToggleLoginAction;
   

@@ -1,14 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { connect } from 'react-redux';
+import { RootState } from "../reducers/rootReducer";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Grid, Button } from "@mui/material";
-import { dataInterface, ProductListProps } from "../interface/product.interface";
+import { ProductListProps } from "../interface/product.interface";
 import { router } from "../constants/constants";
 import { common } from "../constants/message";
 import "../styles/Dashboard.scss";
 
 
-const ProductList: React.FC<ProductListProps> = ({ list, viewType }) => {
+const ProductList: React.FC<ProductListProps> = ({ viewType, data }) => {
   const navigate = useNavigate();
 
   const onClickCell = (c: any) => {
@@ -18,7 +20,7 @@ const ProductList: React.FC<ProductListProps> = ({ list, viewType }) => {
   return (
     <Grid>
       <Grid className="common--card-arr">
-        {list.products.map((item: any, index: any) => (
+        {data.products.map((item: any, index: any) => (
           <Grid
             key={index}
             className={
@@ -46,4 +48,9 @@ const ProductList: React.FC<ProductListProps> = ({ list, viewType }) => {
   );
 };
 
-export default ProductList;
+
+const mapStateToProps = (state: RootState) => ({
+  data: state.data.data,
+});
+
+export default connect(mapStateToProps)(ProductList);

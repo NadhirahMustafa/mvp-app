@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import { RootState } from "../redux/rootReducer";
+import { RootState } from "../reducers/rootReducer";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Grid, Button } from "@mui/material";
 import { getComments } from "../services/Api.services";
 import {
   commentResultInterface,
   commentsDataInterface,
-  LoginProps
+  LoginProps,
 } from "../interface/product.interface";
 import { detailsProduct, common, landing } from "../constants/message";
 import { currency, router } from "../constants/constants";
