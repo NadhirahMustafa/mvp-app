@@ -55,7 +55,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({
     const compareUserData = credential.users.find(
       (x: CredentialInterface) => x.username === inputUsername && x.password === inputPassword
     );
-    if (compareUserData) {
+    if (compareUserData) {     
       toggleLogin();
       navigate(router.DETAILS, {
         state: {

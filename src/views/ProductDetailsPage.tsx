@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { RootState } from "../reducers/rootReducer";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Grid, Button } from "@mui/material";
 import { getComments } from "../services/Api.services";
 import {
@@ -15,9 +15,8 @@ import Login from "./Login";
 import AddReview from "./AddReview";
 import "../styles/Dashboard.scss";
 
-const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn }) => {
+const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn, selectedData }) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [comments, setComments] = useState<commentResultInterface>({
     comments: [],
     limit: 0,
@@ -62,13 +61,13 @@ const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn }) => {
         xs={6}
         className="details--justify details--space-around details--left-items"
       >
-        {location.state.product.images.map((i: string, imgIndex: number) => (
+        {selectedData.images.map((i: string, imgIndex: number) => (
           <img
             className="common--fade-in details--image"
             src={i}
             width={100}
             key={imgIndex}
-            alt={`${common.imageAlt} + ${location.state.product.title}`}
+            alt={`${common.imageAlt} + ${selectedData.title}`}
           />
         ))}
       </Grid>
@@ -76,17 +75,17 @@ const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn }) => {
       <Grid item xs={6} className="details--padding-left">
         <Grid>
           <Grid className="details--emphasize">
-            {location.state.product.title}
+            {selectedData.title}
           </Grid>
           <Grid className="details--detail-text">
-            {location.state.product.description}
+            {selectedData.description}
           </Grid>
           <Grid container>
             <Grid item className="details--emphasize details--padding-right">
               {`${currency.MY}
                 ${(
-                  (location.state.product.price *
-                    (100 - location.state.product.discountPercentage)) /
+                  (selectedData.price *
+                    (100 - selectedData.discountPercentage)) /
                   100
                 ).toFixed(2)}`}
             </Grid>
@@ -95,27 +94,27 @@ const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn }) => {
               className="details--detail-text details--strikethrough details--padding-right"
             >
               {`${currency.MY}
-                ${location.state.product.price}`}
+                ${selectedData.price}`}
             </Grid>
             <Grid item className="details--detail-text details--discount-font">
-              {location.state.product.discountPercentage}
+              {selectedData.discountPercentage}
               {detailsProduct.off}
             </Grid>
           </Grid>
           <Grid className="details--detail-text">
             <b>{detailsProduct.stock}</b>
-            {location.state.product.stock}
+            {selectedData.stock}
           </Grid>
           <Grid className="details--detail-text">
             <b>{detailsProduct.rating}</b>
-            {location.state.product.rating}
+            {selectedData.rating}
           </Grid>
           <Grid container className="details--detail-text">
             <Grid item className="details--padding-right">
               <b>{detailsProduct.category}</b>
             </Grid>
             <Grid item className="details--text-transform">
-              {location.state.product.category}
+              {selectedData.category}
             </Grid>
           </Grid>
         </Grid>
@@ -156,6 +155,7 @@ const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn }) => {
 
 const mapStateToProps = (state: RootState) => ({
   isLoggedIn: state.login.isLoggedIn,
+  selectedData: state.selectedData.selectedData,
 });
 
 export default connect(mapStateToProps)(ProductDetailsPage);

@@ -1,6 +1,6 @@
 import { ToggleLoginAction } from "../interface/login.interface";
-import { GetDataAction } from "../interface/getList.interface";
-import { dataInterface } from "../interface/product.interface";
+import { GetDataAction, GetSelectedDataAction } from "../interface/getList.interface";
+import { dataInterface, selectedDataProps } from "../interface/product.interface";
 import { SetViewAction } from "../interface/view.interface";
 
 export const toggleLogin = (): ToggleLoginAction => ({
@@ -15,4 +15,9 @@ export const setData = (data: dataInterface): GetDataAction => ({
 export const setView = (view: string): SetViewAction => ({
   type: "SET_VIEW",
   payload: view,
+});
+
+export const setSelectedData = (selectedData: selectedDataProps): GetSelectedDataAction => ({
+  type: "SET_SELECTED_DATA",
+  payload: selectedData,
 });

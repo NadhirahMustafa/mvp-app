@@ -1,4 +1,4 @@
-import { DataState, DataAction } from '../interface/getList.interface';
+import { DataState, DataAction, selectedDataAction, } from "../interface/getList.interface";
 
 const initialState: DataState = {
   data: {
@@ -7,14 +7,24 @@ const initialState: DataState = {
     skip: 0,
     total: 0,
   },
+  selectedData: {
+    id: 0,
+    title: "",
+    description: "",
+    price: 0,
+    discountPercentage: 0,
+    rating: 0,
+    stock: 0,
+    brand: "",
+    category: "",
+    thumbnail: "",
+    images: [],
+  },
 };
 
-const dataReducer = (
-  state = initialState,
-  action: DataAction
-): DataState => {
+export const dataReducer = (state = initialState, action: DataAction): DataState => {
   switch (action.type) {
-    case 'SET_DATA':
+    case "SET_DATA":
       return {
         ...state,
         data: action.payload,
@@ -24,4 +34,15 @@ const dataReducer = (
   }
 };
 
-export default dataReducer;
+export const SelectedDataReducer = (state = initialState, action: selectedDataAction): DataState => {
+  switch (action.type) {
+    case "SET_SELECTED_DATA":
+      return {
+        ...state,
+        selectedData: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+

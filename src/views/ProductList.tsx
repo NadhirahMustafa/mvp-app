@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
 import { RootState } from "../reducers/rootReducer";
@@ -8,12 +9,15 @@ import { ProductListProps } from "../interface/product.interface";
 import { router } from "../constants/constants";
 import { common } from "../constants/message";
 import "../styles/Dashboard.scss";
+import { setSelectedData } from "../redux/actions";
 
 
 const ProductList: React.FC<ProductListProps> = ({ viewType, data }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onClickCell = (c: any) => {
+    dispatch(setSelectedData(c));
     navigate(router.DETAILS, { state: { id: c.id, product: c } });
   };
 
@@ -52,6 +56,7 @@ const ProductList: React.FC<ProductListProps> = ({ viewType, data }) => {
 const mapStateToProps = (state: RootState) => ({
   data: state.data.data,
   viewType: state.view.viewType,
+  selectedData: state.selectedData.selectedData
 });
 
 export default connect(mapStateToProps)(ProductList);
