@@ -6,8 +6,6 @@ import LoginPopup from "./LoginPopup";
 
 const Login: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [, setValue] = useState(false);
-
   const openModal = () => {
     setModalOpen(true);
   };

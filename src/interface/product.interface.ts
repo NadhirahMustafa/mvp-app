@@ -6,7 +6,7 @@ export interface dataInterface {
 }
 
 export interface ProductListProps {
-  viewType: number;
+  viewType: string;
   data: dataInterface;
 }
 
@@ -68,4 +68,8 @@ export interface newsProps {
 }
 export interface LoginProps {
   isLoggedIn: boolean;
+}
+export interface viewProps {
+  viewType: string;
+  setView: (v: string) => void;
 }

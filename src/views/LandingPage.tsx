@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import { RootState } from "../reducers/rootReducer";
 import { Grid, Button } from "@mui/material";
 import { getAllProducts } from "../services/Api.services";
-import { setData } from "../redux/actions";
+import { setData, setView } from "../redux/actions";
+import { viewProps } from "../interface/product.interface";
 import { landing, common } from "../constants/message";
 import ProductList from "./ProductList";
 import CommunityNews from "./CommunityNews";
 import "../styles/Dashboard.scss";
 
-const LandingPage: React.FC = () => {
+const LandingPage: React.FC<viewProps> = ({ viewType, setView }) => {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [viewType, setViewType] = useState(0);
 
   const fetchList = async () => {
     let res = await getAllProducts();
     if (res) {
       dispatch(setData(res));
       setIsLoading(false);
-      setViewType(2);
     } else {
       alert(common.alertMessage);
     }
@@ -33,10 +34,10 @@ const LandingPage: React.FC = () => {
     return (
       <Grid container>
         <Grid item className={"search--button-padding"}>
-          <Button className="search--button" onClick={() => setViewType(1)}>
+          <Button className="search--button" onClick={() => setView('LIST')}>
             <p
               className={
-                viewType === 1
+                viewType === 'LIST'
                   ? "search--button-active dashboard--small-font"
                   : "dashboard--small-font"
               }
@@ -46,10 +47,10 @@ const LandingPage: React.FC = () => {
           </Button>
         </Grid>
         <Grid item>
-          <Button className="search--button" onClick={() => setViewType(2)}>
+          <Button className="search--button" onClick={() => setView('GRID')}>
             <p
               className={
-                viewType === 2
+                viewType === 'GRID'
                   ? "search--button-active dashboard--small-font"
                   : "dashboard--small-font"
               }
@@ -69,7 +70,7 @@ const LandingPage: React.FC = () => {
         <Grid container>
           <Grid item xs={10}>
             {renderDataView()}
-            {!isLoading && <ProductList viewType={viewType} />}
+            {!isLoading && <ProductList />}
           </Grid>
           <Grid item xs={2}>
             <CommunityNews />
@@ -82,4 +83,12 @@ const LandingPage: React.FC = () => {
   );
 };
 
-export default LandingPage;
+const mapStateToProps = (state: RootState) => ({
+  viewType: state.view.viewType,
+});
+
+const mapDispatchToProps = {
+  setView,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);

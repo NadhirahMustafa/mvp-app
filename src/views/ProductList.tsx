@@ -24,7 +24,7 @@ const ProductList: React.FC<ProductListProps> = ({ viewType, data }) => {
           <Grid
             key={index}
             className={
-              viewType === 1
+              viewType !== 'GRID'
                 ? "product-list--card-grid product-list--card-layout"
                 : "common--card-list product-list--card-layout"
             }
@@ -51,6 +51,7 @@ const ProductList: React.FC<ProductListProps> = ({ viewType, data }) => {
 
 const mapStateToProps = (state: RootState) => ({
   data: state.data.data,
+  viewType: state.view.viewType,
 });
 
 export default connect(mapStateToProps)(ProductList);
