@@ -25,8 +25,8 @@ export const loginPopup = {
     password: 'Password: ',
     loginTitle: 'Welcome to Item.com',
     loginMessage: 'Enter your username to sign in.',
-    usernamePlaceholder: 'username ',
-    passwordPlaceholder: 'password: ',
+    usernamePlaceholder: 'username',
+    passwordPlaceholder: 'password',
     errorMessage: 'Wrong username/password!',
     login: 'Login',
     cancel: 'Cancel'

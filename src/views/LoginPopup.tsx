@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux';
+import { RootState } from "../redux/rootReducer";
+import { toggleLogin } from "../redux/actions";
 import { useNavigate, useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import { Grid, TextField, Button } from "@mui/material";
@@ -6,7 +9,7 @@ import { getUser } from "../services/Api.services";
 import {
   LoginPopupProps,
   CredentialInterface,
-  userInterface
+  userInterface,
 } from "../interface/product.interface";
 import { common, loginPopup } from "../constants/message";
 import { router } from "../constants/constants";
@@ -17,7 +20,8 @@ Modal.setAppElement("#root");
 const LoginPopup: React.FC<LoginPopupProps> = ({
   isOpen,
   onClose,
-  getValue,
+  isLoggedIn,
+  toggleLogin
 }) => {
   const [inputUsername, setInputUsername] = useState("");
   const [inputPassword, setInputPassword] = useState("");
@@ -27,8 +31,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({
     skip: 0,
     total: 0,
   });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -46,15 +49,14 @@ const LoginPopup: React.FC<LoginPopupProps> = ({
   }, []);
 
   useEffect(() => {
-    getValue(isLoggedIn);
-  }, [isLoggedIn, getValue]);
+  }, [isLoggedIn]);
 
   const handleLogin = () => {
     const compareUserData = credential.users.find(
       (x: CredentialInterface) => x.username === inputUsername && x.password === inputPassword
     );
     if (compareUserData) {
-      setIsLoggedIn(true);
+      toggleLogin();
       navigate(router.DETAILS, {
         state: {
           id: location.state.id,
@@ -65,14 +67,12 @@ const LoginPopup: React.FC<LoginPopupProps> = ({
       onClose();
     } else {
       alert(loginPopup.errorMessage);
-      setIsLoggedIn(false);
       onClose();
     }
   };
 
   const handleCancelButton = () => {
     onClose();
-    getValue(isLoggedIn);
   };
 
   const renderLoginForm = (
@@ -142,4 +142,12 @@ const LoginPopup: React.FC<LoginPopupProps> = ({
   );
 };
 
-export default LoginPopup;
+const mapStateToProps = (state: RootState) => ({
+  isLoggedIn: state.login.isLoggedIn,
+});
+
+const mapDispatchToProps = {
+  toggleLogin,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPopup);

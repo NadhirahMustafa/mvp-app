@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux';
+import { RootState } from "../redux/rootReducer";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Grid, Button } from "@mui/material";
 import { getComments } from "../services/Api.services";
 import {
   commentResultInterface,
   commentsDataInterface,
+  LoginProps
 } from "../interface/product.interface";
 import { detailsProduct, common, landing } from "../constants/message";
 import { currency, router } from "../constants/constants";
@@ -12,9 +15,8 @@ import Login from "./Login";
 import AddReview from "./AddReview";
 import "../styles/Dashboard.scss";
 
-const ProductDetailsPage: React.FC = () => {
+const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn }) => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
   const [comments, setComments] = useState<commentResultInterface>({
     comments: [],
@@ -22,7 +24,6 @@ const ProductDetailsPage: React.FC = () => {
     skip: 0,
     total: 0,
   });
-
   const fetchComments = async () => {
     let res = await getComments();
     if (res) {
@@ -36,10 +37,6 @@ const ProductDetailsPage: React.FC = () => {
     fetchComments();
   }, []);
 
-  const getLoginBool = (value: boolean) => {
-    setIsLoggedIn(value);
-  };
-
   const getReview = (x: commentsDataInterface) => {
     comments.comments.unshift(x);
   };
@@ -51,7 +48,7 @@ const ProductDetailsPage: React.FC = () => {
   const renderTopButton = (
     <Grid container className="details--justify">
       <Button onClick={handleBack}>{detailsProduct.back}</Button>
-      {!isLoggedIn && <Login getLoginBool={getLoginBool} />}
+      {!isLoggedIn && <Login />}
       {isLoggedIn && (
         <AddReview commentNum={comments.total} getReview={getReview} />
       )}
@@ -157,4 +154,8 @@ const ProductDetailsPage: React.FC = () => {
   );
 };
 
-export default ProductDetailsPage;
+const mapStateToProps = (state: RootState) => ({
+  isLoggedIn: state.login.isLoggedIn,
+});
+
+export default connect(mapStateToProps)(ProductDetailsPage);

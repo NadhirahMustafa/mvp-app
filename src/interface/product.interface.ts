@@ -29,14 +29,11 @@ export interface commentResultInterface {
   total: number;
 }
 
-export interface getLoginBoolProps {
-  getLoginBool: (r: boolean) => void;
-}
-
 export interface LoginPopupProps {
   isOpen: boolean;
   onClose: () => void;
-  getValue: (q: boolean) => void;
+  isLoggedIn: boolean;
+  toggleLogin: () => void;
 }
 
 export interface ReviewPopupProps {
@@ -68,4 +65,7 @@ export interface newsProps {
   posts: [];
   skip: number;
   total: number;
+}
+export interface LoginProps {
+  isLoggedIn: boolean;
 }

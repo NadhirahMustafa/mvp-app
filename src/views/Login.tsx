@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import "../styles/Dashboard.scss";
 import { Grid, Button } from "@mui/material";
-import { getLoginBoolProps } from "../interface/product.interface";
 import { login } from "../constants/message";
 import LoginPopup from "./LoginPopup";
 
-const Login: React.FC<getLoginBoolProps> = ({ getLoginBool }) => {
+const Login: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [, setValue] = useState(false);
 
@@ -15,10 +14,6 @@ const Login: React.FC<getLoginBoolProps> = ({ getLoginBool }) => {
 
   const onClose = () => {
     setModalOpen(false);
-  };
-  const handleValueReceived = (value: boolean) => {
-    setValue(value);
-    getLoginBool(value);
   };
 
   return (
@@ -32,7 +27,6 @@ const Login: React.FC<getLoginBoolProps> = ({ getLoginBool }) => {
         <LoginPopup
           isOpen={isModalOpen}
           onClose={onClose}
-          getValue={handleValueReceived}
         />
       </Grid>
     </Grid>
