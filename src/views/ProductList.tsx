@@ -1,28 +1,33 @@
 import React from "react";
+import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import { connect } from 'react-redux';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Grid, Button } from "@mui/material";
-import { dataInterface, ProductListProps } from "../interface/product.interface";
+import { setSelectedData } from "../redux/actions";
+import { RootState } from "../reducers/rootReducer";
+import { ProductListProps } from "../interface/product.interface";
 import { router } from "../constants/constants";
 import { common } from "../constants/message";
 import "../styles/Dashboard.scss";
 
-
-const ProductList: React.FC<ProductListProps> = ({ list, viewType }) => {
+const ProductList: React.FC<ProductListProps> = ({ viewType, data }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onClickCell = (c: any) => {
-    navigate(router.DETAILS, { state: { id: c.id, product: c } });
+    dispatch(setSelectedData(c));
+    navigate(router.DETAILS);
   };
 
   return (
     <Grid>
       <Grid className="common--card-arr">
-        {list.products.map((item: any, index: any) => (
+        {data.products.map((item: any, index: any) => (
           <Grid
             key={index}
             className={
-              viewType === 1
+              viewType !== 'GRID'
                 ? "product-list--card-grid product-list--card-layout"
                 : "common--card-list product-list--card-layout"
             }
@@ -46,4 +51,10 @@ const ProductList: React.FC<ProductListProps> = ({ list, viewType }) => {
   );
 };
 
-export default ProductList;
+
+const mapStateToProps = (state: RootState) => ({
+  data: state.data.data,
+  viewType: state.view.viewType,
+});
+
+export default connect(mapStateToProps)(ProductList);
