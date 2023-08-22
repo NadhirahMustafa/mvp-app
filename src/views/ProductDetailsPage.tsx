@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Grid, Button } from "@mui/material";
 import { getComments } from "../services/Api.services";
-import { commentResultInterface, commentsDataInterface } from "../interface/product.interface";
+import {
+  commentResultInterface,
+  commentsDataInterface,
+} from "../interface/product.interface";
 import { detailsProduct, common, landing } from "../constants/message";
 import { currency, router } from "../constants/constants";
 import Login from "./Login";
@@ -85,8 +88,8 @@ const ProductDetailsPage: React.FC = () => {
             <Grid item className="details--emphasize details--padding-right">
               {`${currency.MY}
                 ${(
-                  (location.state.product.price /
-                    location.state.product.discountPercentage) *
+                  (location.state.product.price *
+                    (100 - location.state.product.discountPercentage)) /
                   100
                 ).toFixed(2)}`}
             </Grid>
