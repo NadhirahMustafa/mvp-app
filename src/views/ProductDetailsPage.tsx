@@ -15,7 +15,7 @@ import Login from "./Login";
 import AddReview from "./AddReview";
 import "../styles/Dashboard.scss";
 
-const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn, selectedData, currentUser }) => {
+const ProductDetailsPage: React.FC<LoginProps> = ({ isLoggedIn, selectedData }) => {
   const navigate = useNavigate();
   const [comments, setComments] = useState<commentResultInterface>({
     comments: [],
