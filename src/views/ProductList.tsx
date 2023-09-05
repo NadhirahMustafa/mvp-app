@@ -1,7 +1,6 @@
 import React from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { connect } from 'react-redux';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Grid, Button } from "@mui/material";
 import { setSelectedData } from "../redux/actions";
